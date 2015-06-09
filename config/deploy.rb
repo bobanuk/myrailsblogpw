@@ -39,4 +39,11 @@ namespace :deploy do
     end
   end
 
+  task :symlink_shared do
+    run "rm -rf  #{current_path}/public/uploads"
+    run "ln -nsf #{shared_path}/uploads #{release_path}/public/uploads"
+  end
+
+  after 'deploy:restart', 'symlink_shared'
+
 end
