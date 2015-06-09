@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :bobans
   resources :photoavatars
   resources :blogs
   devise_for :users

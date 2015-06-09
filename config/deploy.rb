@@ -19,31 +19,21 @@ set :keep_releases, 3
 
 
 namespace :deploy do
-
-  desc 'Restart application'
+  desc "Tell Passenger to restart the app."
   task :restart do
-    on roles(:app), in: :sequence, wait: 5 do
-      # Your restart mechanism here, for example:
-       execute :touch, release_path.join('tmp/restart.txt')
-    end
+    run "touch #{current_path}/tmp/restart.txt"
   end
 
-  after :publishing, :restart
-
-  after :restart, :clear_cache do
-    on roles(:web), in: :groups, limit: 3, wait: 10 do
-      # Here we can do anything such as:
-      # within release_path do
-      #   execute :rake, 'cache:clear'
-      # end
-    end
-  end
-
+  desc "Symlink shared configs and folders on each release."
   task :symlink_shared do
-    run "rm -rf  #{current_path}/public/uploads"
-    run "ln -nsf #{shared_path}/uploads #{release_path}/public/uploads"
+    run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+    run "ln -nfs #{shared_path}/assets #{release_path}/public/assets"
   end
 
-  after 'deploy:restart', 'symlink_shared'
-
+  desc "Sync the public/assets directory."
+  task :assets do
+    system "rsync -vr --exclude='.DS_Store' public/assets #{user}@#{application}:#{shared_path}/"
+  end
 end
+
+after 'deploy:update_code', 'deploy:symlink_shared'
