@@ -30,6 +30,8 @@ gem "punching_bag"
 gem 'social-share-button'
 gem 'carrierwave'
 gem 'mini_magick'
+gem 'will_paginate'
+gem 'will_paginate-bootstrap'
 
 # Use Unicorn as the app server
 gem 'unicorn'
