@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   mount_uploader :avatar, AvatarUploader
 
   validate  :avatar_size
+  extend FriendlyId
+  friendly_id :name, use: :slugged
 
   private
   def avatar_size

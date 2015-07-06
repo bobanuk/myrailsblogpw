@@ -32,6 +32,7 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
+gem 'friendly_id', '~> 5.1.0'
 
 # Use Unicorn as the app server
 gem 'unicorn'
