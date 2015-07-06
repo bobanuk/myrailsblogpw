@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :robins
   resources :bobans
   resources :photoavatars
   resources :blogs
